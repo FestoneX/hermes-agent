@@ -130,8 +130,10 @@ def _resolve_stt_client_config() -> Dict[str, Any]:
         api_key = tt._resolve_provider_key("ELEVENLABS_API_KEY", "elevenlabs")
         if not api_key:
             return _relay("no credentials")
+        # ElevenLabs keys this ``model_id``, not ``model`` — same as the relay
+        # path in tools.transcription_tools.transcribe_recording.
         return direct(STT_WIRE_ELEVENLABS, env_base_url("ELEVENLABS_STT_BASE_URL", tc.ELEVENLABS_STT_BASE_URL),
-                      api_key, section.get("model") or tc.DEFAULT_ELEVENLABS_STT_MODEL)
+                      api_key, section.get("model_id") or tc.DEFAULT_ELEVENLABS_STT_MODEL)
     if provider == "deepinfra":
         api_key = tt._resolve_provider_key("DEEPINFRA_API_KEY", "deepinfra")
         if not api_key:
